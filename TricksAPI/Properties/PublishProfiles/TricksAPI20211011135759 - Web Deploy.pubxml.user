@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA4dpVRbR7mUeGkMe01X3GUgAAAAACAAAAAAAQZgAAAAEAACAAAABgI60tLL6775uI1c2e/fMv1DSWCf5phLrCyKlhtEBjVAAAAAAOgAAAAAIAACAAAABxDmMacrXly6uMY3eeIPtPHcTwn6x7oL6/eMFRoeWTXoAAAADq6ga+gbqntdNFxVsltEeB95VSSlffL7SkFXsmBs2o/GTUd8i6zEo3idPRSRnp1T7rKmQgNROec9W4WUVyqlHZbub22+dF8U27HCxf02AlWn2lAh5gcfy5hpuKlL+J7phpPNapMQtOVrzaHt1szqG+GShlT7HuDX+4zws8XEbTCkAAAACzMjAox58229k8R+DvyY7Rpw3ChmSdUZQX/0fgfnji7p0QQCxhsLWngpqjbJOvz4SP6jx69BQKtBqSRkJZraot</EncryptedPassword>
+    <History>True|2021-10-18T13:54:37.9366760Z;False|2021-10-18T16:48:13.0416838+03:00;False|2021-10-18T16:43:35.3748781+03:00;True|2021-10-18T16:26:54.8795550+03:00;True|2021-10-18T16:22:20.9948994+03:00;True|2021-10-11T14:08:59.1372034+03:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <EFMigrations Include="TricksAPI.Data.RestContext">
+      <Value>Data Source=tcp:tricksapidbserver.database.windows.net,1433%3bInitial Catalog=TricksAPI_db%3bUser Id=benas%40tricksapidbserver%3bPassword=makakis_528</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TricksAPI", "TricksAPI.csproj", "{352F6BA8-EFFF-468D-BBC1-8D14F03AA533}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{352F6BA8-EFFF-468D-BBC1-8D14F03AA533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352F6BA8-EFFF-468D-BBC1-8D14F03AA533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352F6BA8-EFFF-468D-BBC1-8D14F03AA533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352F6BA8-EFFF-468D-BBC1-8D14F03AA533}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1559BAE-70E4-4339-8F24-716FD46B1812}
+	EndGlobalSection
+EndGlobal

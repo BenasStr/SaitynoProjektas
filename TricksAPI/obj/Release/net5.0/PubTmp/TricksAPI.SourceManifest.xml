@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\strau\OneDrive\Desktop\Univeras\Mokymasis\7_Semestras\Saitynas\API\TricksAPI\obj\Release\net5.0\PubTmp\Out\" />
+  <dbfullsql path="C:\Users\strau\OneDrive\Desktop\Univeras\Mokymasis\7_Semestras\Saitynas\API\TricksAPI\obj\Release\net5.0\PubTmp\EFSQLScripts\TricksAPI.Data.RestContext.sql" />
+</sitemanifest>

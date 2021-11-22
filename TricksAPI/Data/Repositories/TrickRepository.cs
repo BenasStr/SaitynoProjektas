@@ -10,8 +10,8 @@ namespace TricksAPI.Data.Repositories
 {
     public interface ITrickRepository
     {
-        Task<Trick> Get(int userId, int trickId);
-        Task<List<Trick>> GetAll(int userId);
+        Task<Trick> Get(string userId, int trickId);
+        Task<List<Trick>> GetAll(string userId);
         Task Create(Trick trick);
         Task Update(Trick trick);
         Task Delete(Trick trick);
@@ -25,14 +25,14 @@ namespace TricksAPI.Data.Repositories
             _restContext = restContext;
         }
 
-        public async Task<List<Trick>> GetAll(int userId)
+        public async Task<List<Trick>> GetAll(string userId)
         {
-            return await _restContext.Tricks.Where(o => o.Id == userId).ToListAsync();
+            return await _restContext.Tricks.Where(o => o.UserId == userId).ToListAsync();
         }
 
-        public async Task<Trick> Get(int userId, int trickId)
+        public async Task<Trick> Get(string userId, int trickId)
         {
-            return await _restContext.Tricks.FirstOrDefaultAsync(o => o.Id == userId && o.Id == trickId);
+            return await _restContext.Tricks.FirstOrDefaultAsync(o => o.UserId == userId && o.Id == trickId);
         }
 
         public async Task Create(Trick trick)

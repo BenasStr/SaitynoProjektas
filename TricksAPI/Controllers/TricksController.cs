@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using TricksAPI.Data.Repositories;
@@ -21,7 +22,7 @@ namespace TricksAPI.Controllers
      */
 
     [ApiController]
-    [Route("api/user/{userId}/tricks")]
+    [Route("api/tricks")]
     public class TricksController : ControllerBase
     {
         private readonly ITrickRepository _trickRepository;
@@ -34,19 +35,22 @@ namespace TricksAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RestUserRoles.SimpleUser)]
-        public async Task<IEnumerable<TrickDto>> GetAll(int userId)
+        [Authorize(Roles = RestUserRoles.PremiumUser)]
+        public async Task<IEnumerable<TrickDto>> GetAll()
         {
+            ClaimsIdentity claimIdentity = User.Identity as ClaimsIdentity;
+            var userId = claimIdentity?.FindFirst(CustomClaims.UserId)?.Value;
+
             var trick = await _trickRepository.GetAll(userId);
             return trick.Select(o => _mapper.Map<TrickDto>(o));
         }
 
         [HttpGet("{trickId}")]
-        [Authorize(Roles = RestUserRoles.SimpleUser)]
-        public async Task<ActionResult<TrickDto>> Get(int userId, int trickId)
+        [Authorize(Roles = RestUserRoles.PremiumUser)]
+        public async Task<ActionResult<TrickDto>> Get(int trickId)
         {
-            /*var user = await _userRepository.Get(userId);
-            if (user == null) return NotFound($"User with id '{userId}' not found.");*/
+            ClaimsIdentity claimIdentity = User.Identity as ClaimsIdentity;
+            var userId = claimIdentity?.FindFirst(CustomClaims.UserId)?.Value;
 
             var trick = await _trickRepository.Get(userId, trickId);
             if (trick == null) return NotFound($"Trick with id '{trickId}' not found.");
@@ -55,25 +59,27 @@ namespace TricksAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RestUserRoles.Admin)]
-        public async Task<ActionResult<TrickDto>> Post(int userId, TrickDto trickDto)
+        [Authorize(Roles = RestUserRoles.PremiumUser)]
+        public async Task<ActionResult<TrickDto>> Post(TrickDto trickDto)
         {
-            /*var user = await _userRepository.Get(userId);
-            if (user == null) return NotFound($"Couldn't find a user with id of {userId}");*/
-
             var trick = _mapper.Map<Trick>(trickDto);
-            trick.Id = userId;
+            ClaimsIdentity claimIdentity = User.Identity as ClaimsIdentity;
+            var userId = claimIdentity?.FindFirst(CustomClaims.UserId)?.Value;
+
+            trick.UserId = userId;
+
             await _trickRepository.Create(trick);
 
-            return Created($"/api/lesson/{userId}/comment/{trick.Id}", _mapper.Map<TrickDto>(trick));
+
+            return Created($"/api/trick", _mapper.Map<TrickDto>(trick));
         }
 
         [HttpPatch("{trickId}")]
-        [Authorize(Roles = RestUserRoles.Admin)]
-        public async Task<ActionResult<Lesson>> Patch(int userId, int trickId, TrickDto trickDto)
+        [Authorize(Roles = RestUserRoles.PremiumUser)]
+        public async Task<ActionResult<Lesson>> Patch(int trickId, TrickDto trickDto)
         {
-            /*var user = await _userRepository.Get(userId);
-            if (user == null) return NotFound($"User with id '{userId}' not found.");*/
+            ClaimsIdentity claimIdentity = User.Identity as ClaimsIdentity;
+            var userId = claimIdentity?.FindFirst(CustomClaims.UserId)?.Value;
 
             var oldTrick = await _trickRepository.Get(userId, trickId);
             if (oldTrick == null) return NotFound($"Trick with id '{trickId}' not found.");
@@ -86,11 +92,11 @@ namespace TricksAPI.Controllers
         }
 
         [HttpDelete("{trickId}")]
-        [Authorize(Roles = RestUserRoles.Admin)]
-        public async Task<ActionResult> Delete(int userId, int trickId)
+        [Authorize(Roles = RestUserRoles.PremiumUser)]
+        public async Task<ActionResult> Delete(int trickId)
         {
-            /*var user = await _userRepository.Get(userId);
-            if (user == null) return NotFound($"User with id '{userId}' not found.");*/
+            ClaimsIdentity claimIdentity = User.Identity as ClaimsIdentity;
+            var userId = claimIdentity?.FindFirst(CustomClaims.UserId)?.Value;
 
             var trick = await _trickRepository.Get(userId, trickId);
             if (trick == null) return NotFound($"Trick with id '{trickId}' not found.");

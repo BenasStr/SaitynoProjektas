@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -50,10 +51,12 @@ namespace TricksAPI.Controllers
         public async Task<ActionResult<CommentDto>> Get(int lessonId, int commentId)
         {
             var lesson = await _lessonRepository.Get(lessonId);
-            if (lesson == null) return NotFound($"Lesson with id '{lessonId}' not found.");
+            if (lesson == null)
+                return NotFound($"Lesson with id '{lessonId}' not found.");
 
             var comment = await _commentRepository.Get(lessonId, commentId);
-            if (comment == null) return NotFound($"Comment with id '{commentId}' not found.");
+            if (comment == null)
+                return NotFound($"Comment with id '{commentId}' not found.");
 
             return Ok(_mapper.Map<CommentDto>(comment));
         }
@@ -65,10 +68,12 @@ namespace TricksAPI.Controllers
             var lesson = await _lessonRepository.Get(lessonId);
             if (lesson == null) return NotFound($"Couldn't find a lesson with id of {lessonId}");
 
+            ClaimsIdentity claimIdentity = User.Identity as ClaimsIdentity;
+            var userId = claimIdentity?.FindFirst(CustomClaims.UserId)?.Value;
+
             var comment = _mapper.Map<Comment>(commentDto);
             comment.LessonId = lessonId;
-            //comment.UserId = User;
-            var userId = User.Identity;
+            comment.UserId = userId;
 
             await _commentRepository.Create(comment);
 
@@ -85,7 +90,9 @@ namespace TricksAPI.Controllers
             var oldComment = await _commentRepository.Get(lessonId, commentId);
             if (oldComment == null) return NotFound($"Comment with id '{commentId}' not found.");
 
-            var authResult = await _authorizationService.AuthorizeAsync(User, commentDto, PolicyNames.SameUser);
+            _mapper.Map(commentDto, oldComment);
+
+            var authResult = await _authorizationService.AuthorizeAsync(User, oldComment, PolicyNames.SameUser);
 
             if (!authResult.Succeeded)
                 return Forbid();
@@ -107,9 +114,9 @@ namespace TricksAPI.Controllers
             var comment = await _commentRepository.Get(lessonId, commentId);
             if (comment == null) return NotFound($"Comment with id '{commentId}' not found.");
 
-            /*var authResult = await _authorizationService.AuthorizeAsync(User, commentDto, PolicyNames.SameUser);
+            var authResult = await _authorizationService.AuthorizeAsync(User, comment, PolicyNames.SameUser);
             if (!authResult.Succeeded)
-                return Forbid();*/
+                return Forbid();
 
             await _commentRepository.Delete(comment);
 
